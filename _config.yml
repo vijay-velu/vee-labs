@@ -1,0 +1,8 @@
+title: Vee Labs
+description: Mobile apps, security tools, and open-source experiments.
+url: "https://vee-labs.github.io"
+
+theme: jekyll-theme-midnight
+
+plugins:
+  - jekyll-seo-tag
