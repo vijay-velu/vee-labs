@@ -1,8 +1,6 @@
 title: Vee Labs
-description: Mobile apps, security tools, and open-source experiments.
+description: Indie studio building privacy-first mobile apps and field-service tools. Flutter · Kotlin · Firebase · Security.
 url: "https://vee-labs.github.io"
-
-theme: jekyll-theme-midnight
 
 plugins:
   - jekyll-seo-tag

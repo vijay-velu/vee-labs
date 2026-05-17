@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vee Labs — Secure Mobile Software</title>
+  <meta name="description" content="Indie studio building privacy-first mobile apps and field-service tools. Flutter · Kotlin · Firebase · Security." />
+  <meta property="og:title" content="Vee Labs" />
+  <meta property="og:description" content="Indie studio building privacy-first mobile apps and field-service tools." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #080c14;
+      --surface:   #0e1523;
+      --surface2:  #131d2e;
+      --border:    #1b2840;
+      --border2:   #243350;
+      --green:     #34d399;
+      --cyan:      #22d3ee;
+      --purple:    #a78bfa;
+      --text:      #c8d6e8;
+      --dim:       #566580;
+      --bright:    #eef2f8;
+      --danger:    #f87171;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── grid noise overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(52,211,153,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(52,211,153,.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      height: 58px;
+      background: rgba(8,12,20,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      text-decoration: none;
+      color: var(--bright);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: .02em;
+    }
+
+    .logo-icon {
+      width: 26px; height: 26px;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #080c14;
+      font-weight: 700;
+    }
+
+    nav .links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      color: var(--dim);
+      text-decoration: none;
+      font-size: .85rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+
+    nav a:hover { color: var(--bright); }
+
+    .nav-cta {
+      padding: .4rem 1rem;
+      background: transparent;
+      border: 1px solid var(--border2);
+      border-radius: 6px;
+      color: var(--green) !important;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem !important;
+      transition: background .2s, border-color .2s !important;
+    }
+
+    .nav-cta:hover {
+      background: rgba(52,211,153,.08) !important;
+      border-color: var(--green) !important;
+    }
+
+    /* ── sections wrapper ── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    /* ── hero ── */
+    .hero {
+      padding: 5rem 0 3.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .3rem .75rem;
+      background: rgba(52,211,153,.08);
+      border: 1px solid rgba(52,211,153,.2);
+      border-radius: 999px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      color: var(--green);
+      margin-bottom: 1.8rem;
+    }
+
+    .hero-badge .dot {
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: .3; }
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--bright);
+      letter-spacing: -.02em;
+      margin-bottom: 1rem;
+    }
+
+    h1 span {
+      background: linear-gradient(90deg, var(--green), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      max-width: 560px;
+      color: var(--dim);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .6rem 1.25rem;
+      border-radius: 7px;
+      font-size: .88rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all .2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--green), #059669);
+      color: #080c14;
+    }
+
+    .btn-primary:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border2);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(34,211,238,.06);
+    }
+
+    /* ── section headings ── */
+    .section {
+      padding: 3.5rem 0 0;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      color: var(--green);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: .9rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    h2 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--bright);
+      letter-spacing: -.01em;
+      margin-bottom: .4rem;
+    }
+
+    .section-desc {
+      color: var(--dim);
+      font-size: .9rem;
+      margin-bottom: 2rem;
+    }
+
+    /* ── stack pills ── */
+    .stack-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .35rem .85rem;
+      border-radius: 6px;
+      font-size: .8rem;
+      font-weight: 500;
+      border: 1px solid transparent;
+      transition: all .2s;
+    }
+
+    .pill:hover { transform: translateY(-2px); }
+
+    .pill-flutter  { background: rgba(79,195,247,.1); border-color: rgba(79,195,247,.25); color: #4fc3f7; }
+    .pill-kotlin   { background: rgba(167,139,250,.1); border-color: rgba(167,139,250,.25); color: var(--purple); }
+    .pill-firebase { background: rgba(251,191,36,.1);  border-color: rgba(251,191,36,.25);  color: #fbbf24; }
+    .pill-security { background: rgba(248,113,113,.1); border-color: rgba(248,113,113,.25); color: var(--danger); }
+    .pill-android  { background: rgba(52,211,153,.1);  border-color: rgba(52,211,153,.25);  color: var(--green); }
+    .pill-mvvm     { background: rgba(34,211,238,.1);  border-color: rgba(34,211,238,.25);  color: var(--cyan); }
+    .pill-dart     { background: rgba(79,195,247,.08); border-color: rgba(79,195,247,.2);   color: #67c8f5; }
+    .pill-revenuecat { background: rgba(167,139,250,.08); border-color: rgba(167,139,250,.2); color: #b99cf9; }
+
+    /* ── project cards ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+
+    .card-breachguard::before { background: linear-gradient(90deg, var(--danger), var(--purple)); }
+    .card-acservice::before   { background: linear-gradient(90deg, var(--cyan), var(--green)); }
+
+    .card:hover {
+      border-color: var(--border2);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,.5);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .card-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .icon-bg-security { background: rgba(248,113,113,.15); }
+    .icon-bg-tools    { background: rgba(34,211,238,.15); }
+
+    .card-status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      padding: .25rem .6rem;
+      border-radius: 999px;
+      border: 1px solid var(--border2);
+      color: var(--dim);
+    }
+
+    .card-status.active {
+      border-color: rgba(52,211,153,.3);
+      color: var(--green);
+      background: rgba(52,211,153,.07);
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--bright);
+      margin-bottom: .35rem;
+    }
+
+    .card p {
+      font-size: .87rem;
+      color: var(--dim);
+      line-height: 1.65;
+      margin-bottom: 1.1rem;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      padding: .2rem .5rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--dim);
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--green);
+      text-decoration: none;
+      transition: gap .2s;
+    }
+
+    .card-link:hover { gap: .55rem; }
+
+    .card-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      color: var(--dim);
+    }
+
+    /* ── commits timeline ── */
+    .timeline {
+      position: relative;
+      padding-left: 1.4rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 8px; bottom: 8px;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--green), transparent);
+    }
+
+    .commit {
+      position: relative;
+      padding: 0 0 1.4rem 1.2rem;
+    }
+
+    .commit::before {
+      content: '';
+      position: absolute;
+      left: -4.5px;
+      top: 8px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      border: 1.5px solid;
+    }
+
+    .commit-breachguard::before { border-color: var(--danger); background: rgba(248,113,113,.2); }
+    .commit-acservice::before   { border-color: var(--cyan);   background: rgba(34,211,238,.2); }
+
+    .commit-meta {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      margin-bottom: .25rem;
+    }
+
+    .commit-repo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem;
+      padding: .15rem .45rem;
+      border-radius: 4px;
+    }
+
+    .repo-breach {
+      background: rgba(248,113,113,.1);
+      border: 1px solid rgba(248,113,113,.25);
+      color: var(--danger);
+    }
+
+    .repo-ac {
+      background: rgba(34,211,238,.1);
+      border: 1px solid rgba(34,211,238,.25);
+      color: var(--cyan);
+    }
+
+    .commit-hash {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem;
+      color: var(--dim);
+    }
+
+    .commit-msg {
+      font-size: .88rem;
+      color: var(--text);
+    }
+
+    /* ── about ── */
+    .about-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1.75rem;
+      align-items: start;
+    }
+
+    .avatar {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .about-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--bright);
+      margin-bottom: .2rem;
+    }
+
+    .about-role {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem;
+      color: var(--green);
+      margin-bottom: .75rem;
+    }
+
+    .about-bio {
+      font-size: .88rem;
+      color: var(--dim);
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+
+    .about-links {
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+    }
+
+    .about-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      font-size: .8rem;
+      color: var(--dim);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .about-links a:hover { color: var(--bright); }
+
+    /* ── footer ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1.5rem 1.5rem 2.5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+
+    .footer-copy {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      color: var(--dim);
+    }
+
+    .footer-stack {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem;
+      color: var(--dim);
+    }
+
+    /* ── responsive ── */
+    @media (max-width: 600px) {
+      nav { padding: 0 1rem; }
+      main { padding: 0 1rem 3rem; }
+      .hero { padding: 3rem 0 2rem; }
+      .about-box { grid-template-columns: 1fr; gap: 1rem; }
+      footer { flex-direction: column; align-items: flex-start; }
+      h1 { font-size: 1.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="/" class="logo">
+    <div class="logo-icon">VL</div>
+    Vee Labs
+  </a>
+  <div class="links">
+    <a href="#projects">Projects</a>
+    <a href="#updates">Updates</a>
+    <a href="#about">About</a>
+    <a href="https://github.com/vee-labs" target="_blank" rel="noopener" class="nav-cta">GitHub →</a>
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<main>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Open for collaborations
+    </div>
+    <h1>Building <span>secure,</span><br>useful software.</h1>
+    <p class="hero-sub">
+      Indie mobile dev studio. I ship privacy-first apps and field-service tools — things
+      that solve real problems and handle user data with care.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="https://github.com/vee-labs" target="_blank" rel="noopener" class="btn btn-ghost">
+        GitHub ↗
+      </a>
+    </div>
+  </section>
+
+  <!-- ── STACK ── -->
+  <section class="section" id="stack">
+    <div class="section-label">// tech stack</div>
+    <h2>Expertise</h2>
+    <p class="section-desc">Languages, frameworks, and platforms I ship with.</p>
+    <div class="stack-grid">
+      <span class="pill pill-flutter">⚡ Flutter</span>
+      <span class="pill pill-dart">◆ Dart</span>
+      <span class="pill pill-kotlin">K Kotlin</span>
+      <span class="pill pill-android">🤖 Android</span>
+      <span class="pill pill-firebase">🔥 Firebase</span>
+      <span class="pill pill-mvvm">◈ MVVM</span>
+      <span class="pill pill-security">🔐 k-Anonymity</span>
+      <span class="pill pill-revenuecat">💳 RevenueCat</span>
+    </div>
+  </section>
+
+  <!-- ── PROJECTS ── -->
+  <section class="section" id="projects">
+    <div class="section-label">// projects</div>
+    <h2>What I've Built</h2>
+    <p class="section-desc">Apps in active development — real users, real problems.</p>
+
+    <div class="projects-grid">
+
+      <!-- BreachGuard -->
+      <div class="card card-breachguard">
+        <div class="card-header">
+          <div class="card-icon icon-bg-security">🔐</div>
+          <span class="card-status active">active</span>
+        </div>
+        <h3>BreachGuard</h3>
+        <p>
+          Privacy-first password and email breach monitor for Android &amp; iOS.
+          Passwords are <strong>never transmitted</strong> — SHA-1 is computed locally,
+          only a 5-char prefix is sent via k-anonymity to HaveIBeenPwned.
+        </p>
+        <div class="card-tags">
+          <span class="tag">Flutter</span>
+          <span class="tag">Firebase</span>
+          <span class="tag">HaveIBeenPwned</span>
+          <span class="tag">RevenueCat</span>
+          <span class="tag">AdMob</span>
+          <span class="tag">SecureStorage</span>
+        </div>
+        <div class="card-footer">
+          <a href="https://github.com/vee-labs/BreachGuard" target="_blank" rel="noopener" class="card-link">
+            View Repo →
+          </a>
+          <span class="card-meta">Flutter · cross-platform</span>
+        </div>
+      </div>
+
+      <!-- ACServiceApp -->
+      <div class="card card-acservice">
+        <div class="card-header">
+          <div class="card-icon icon-bg-tools">🛠️</div>
+          <span class="card-status active">v21</span>
+        </div>
+        <h3>ACServiceApp</h3>
+        <p>
+          Field service ticketing app for AC technicians. Role-based access for Admin,
+          Office Staff, and Technicians. Real-time Firestore sync, spare sheet tracking,
+          and activity logs.
+        </p>
+        <div class="card-tags">
+          <span class="tag">Kotlin</span>
+          <span class="tag">Android</span>
+          <span class="tag">Firebase</span>
+          <span class="tag">Firestore</span>
+          <span class="tag">MVVM</span>
+          <span class="tag">Navigation</span>
+        </div>
+        <div class="card-footer">
+          <a href="https://github.com/vee-labs/ACServiceApp" target="_blank" rel="noopener" class="card-link">
+            View Repo →
+          </a>
+          <span class="card-meta">Kotlin · Android native</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── RECENT UPDATES ── -->
+  <section class="section" id="updates">
+    <div class="section-label">// recent activity</div>
+    <h2>Latest Commits</h2>
+    <p class="section-desc">What's shipping right now across both repos.</p>
+
+    <div class="timeline">
+
+      <div class="commit commit-acservice">
+        <div class="commit-meta">
+          <span class="commit-repo repo-ac">ACServiceApp</span>
+          <span class="commit-hash">f7b202c</span>
+        </div>
+        <div class="commit-msg">feat: v21 — Last Call Received tech guard, cumulative spare pending, real-time fix</div>
+      </div>
+
+      <div class="commit commit-acservice">
+        <div class="commit-meta">
+          <span class="commit-repo repo-ac">ACServiceApp</span>
+          <span class="commit-hash">aea5765</span>
+        </div>
+        <div class="commit-msg">fix: security hardening and review findings for Play Store release</div>
+      </div>
+
+      <div class="commit commit-acservice">
+        <div class="commit-meta">
+          <span class="commit-repo repo-ac">ACServiceApp</span>
+          <span class="commit-hash">1069bd9</span>
+        </div>
+        <div class="commit-msg">fix: v20 — delete/recycle, resolved removal, auth fix, email UI, test data</div>
+      </div>
+
+      <div class="commit commit-breachguard">
+        <div class="commit-meta">
+          <span class="commit-repo repo-breach">BreachGuard</span>
+          <span class="commit-hash">f27489c</span>
+        </div>
+        <div class="commit-msg">fix: replace invalid AdMob App ID with test ID — crash on launch resolved</div>
+      </div>
+
+      <div class="commit commit-breachguard">
+        <div class="commit-meta">
+          <span class="commit-repo repo-breach">BreachGuard</span>
+          <span class="commit-hash">bbf0ab1</span>
+        </div>
+        <div class="commit-msg">fix: all Android build errors resolved — debug APK now compiles cleanly</div>
+      </div>
+
+      <div class="commit commit-breachguard">
+        <div class="commit-meta">
+          <span class="commit-repo repo-breach">BreachGuard</span>
+          <span class="commit-hash">458286e</span>
+        </div>
+        <div class="commit-msg">fix: Android build for Android Studio + added comprehensive setup guide</div>
+      </div>
+
+      <div class="commit commit-breachguard">
+        <div class="commit-meta">
+          <span class="commit-repo repo-breach">BreachGuard</span>
+          <span class="commit-hash">34c5cca</span>
+        </div>
+        <div class="commit-msg">docs: add RELEASE_SETUP.md — pre-release checklist for production deployment</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <section class="section" id="about">
+    <div class="section-label">// about</div>
+    <h2>The Person Behind It</h2>
+    <p class="section-desc">One developer, two apps, zero shortcuts on security.</p>
+
+    <div class="about-box">
+      <div class="avatar">👨‍💻</div>
+      <div>
+        <div class="about-name">Vee</div>
+        <div class="about-role">// indie mobile developer · security-conscious builder</div>
+        <p class="about-bio">
+          I run Vee Labs solo — building cross-platform Flutter apps and native Android tools
+          that handle sensitive user data responsibly. My focus is on shipping polished,
+          production-ready software: clean architecture (MVVM), proper Firebase security rules,
+          k-anonymity for privacy, and Play Store-grade hardening before every release.
+          <br><br>
+          Currently pushing ACServiceApp toward Play Store launch and taking BreachGuard
+          through its pre-release checklist.
+        </p>
+        <div class="about-links">
+          <a href="https://github.com/vee-labs" target="_blank" rel="noopener">
+            ⬡ GitHub/vee-labs
+          </a>
+          <a href="https://veelabs1.wordpress.com" target="_blank" rel="noopener">
+            ✎ Blog
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <span class="footer-copy">© 2025 Vee Labs — built with Jekyll · GitHub Pages</span>
+  <span class="footer-stack">Flutter · Kotlin · Firebase · Security</span>
+</footer>
+
+</body>
+</html>
