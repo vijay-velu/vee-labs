@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,6 +8,12 @@
   <meta property="og:title" content="Vee Labs · Vijay Velu" />
   <meta property="og:description" content="Security engineer and indie mobile developer building privacy-first apps and field-service tools." />
   <meta property="og:type" content="website" />
+  <script>
+    (function(){
+      var t=localStorage.getItem('vl-theme')||(window.matchMedia('(prefers-color-scheme:light)').matches?'light':'dark');
+      document.documentElement.setAttribute('data-theme',t);
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -26,7 +32,30 @@
       --dim:       #566580;
       --bright:    #eef2f8;
       --danger:    #f87171;
+      --t:         0.22s cubic-bezier(.4,0,.2,1);
     }
+
+    [data-theme="light"] {
+      --bg:        #f2f7f4;
+      --surface:   #ffffff;
+      --surface2:  #eaf3ee;
+      --border:    #cce3d4;
+      --border2:   #a8ccb5;
+      --green:     #059669;
+      --cyan:      #0891b2;
+      --purple:    #7c3aed;
+      --text:      #374151;
+      --dim:       #4b6458;
+      --bright:    #0a1f14;
+      --danger:    #dc2626;
+    }
+
+    /* scroll reveal */
+    .r { opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease; }
+    .r.on { opacity:1; transform:none; }
+    .r.d1 { transition-delay:.08s; }
+    .r.d2 { transition-delay:.16s; }
+    .r.d3 { transition-delay:.24s; }
 
     html { scroll-behavior: smooth; }
 
@@ -37,6 +66,7 @@
       font-size: 15px;
       line-height: 1.7;
       min-height: 100vh;
+      transition: background-color var(--t), color var(--t);
     }
 
     /* ── grid noise overlay ── */
@@ -62,10 +92,22 @@
       justify-content: space-between;
       padding: 0 2rem;
       height: 58px;
-      background: rgba(8,12,20,.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+      background: color-mix(in srgb,var(--bg) 88%,transparent);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid transparent;
+      transition: background var(--t), border-color var(--t);
     }
+    nav.scrolled { border-bottom-color: var(--border); }
+    .theme-toggle {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 7px; color: var(--dim);
+      cursor: pointer; width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .9rem; margin-left: .4rem; flex-shrink: 0;
+      transition: background var(--t), border-color var(--t);
+    }
+    .theme-toggle:hover { background: rgba(52,211,153,.1); border-color: var(--green); }
 
     .logo {
       display: flex;
@@ -700,10 +742,12 @@
   <div class="links">
     <a href="#projects">Projects</a>
     <a href="#ai-labs">AI Labs</a>
-    <a href="#updates">Updates</a>
     <a href="#about">About</a>
     <a href="https://vijay-velu.github.io" target="_blank" rel="noopener">Blog ↗</a>
     <a href="https://github.com/vee-labs" target="_blank" rel="noopener" class="nav-cta">GitHub →</a>
+    <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme">
+      <span id="themeIcon">☀️</span>
+    </button>
   </div>
 </nav>
 
@@ -712,17 +756,17 @@
 
   <!-- ── HERO ── -->
   <section class="hero">
-    <div class="hero-badge">
+    <div class="hero-badge r">
       <span class="dot"></span>
       CEH · CCNA · Security Engineer
     </div>
-    <h1>Building <span>secure,</span><br>useful software.</h1>
-    <p class="hero-sub">
+    <h1 class="r d1">Building <span>secure,</span><br>useful software.</h1>
+    <p class="hero-sub r d2">
       I'm <strong style="color:var(--bright)">Vijay Velu</strong> — security engineer and ethical hacker based in India.
       Vee Labs is where I ship privacy-first mobile apps and field-service tools,
       applying the same attack-minded thinking to build better defenses into everything I write.
     </p>
-    <div class="hero-actions">
+    <div class="hero-actions r d3">
       <a href="#projects" class="btn btn-primary">View Projects</a>
       <a href="https://vijay-velu.github.io" target="_blank" rel="noopener" class="btn btn-ghost">
         Security Blog ↗
@@ -735,10 +779,10 @@
 
   <!-- ── STACK ── -->
   <section class="section" id="stack">
-    <div class="section-label">// tech stack &amp; certs</div>
-    <h2>Expertise</h2>
-    <p class="section-desc">Languages, frameworks, platforms, and certifications.</p>
-    <div class="stack-grid">
+    <div class="section-label r">// tech stack &amp; certs</div>
+    <h2 class="r d1">Expertise</h2>
+    <p class="section-desc r d2">Languages, frameworks, platforms, and certifications.</p>
+    <div class="stack-grid r d3">
       <span class="pill pill-ceh">🎓 CEH</span>
       <span class="pill pill-ccna">🌐 CCNA</span>
       <span class="pill pill-pentest">🕵️ Penetration Testing</span>
@@ -760,14 +804,14 @@
 
   <!-- ── AI LABS ── -->
   <section class="section" id="ai-labs">
-    <div class="section-label">// ai labs</div>
-    <h2>AI Labs</h2>
-    <p class="section-desc">Building with AI — agents, tooling, and prompt engineering across Claude and Google.</p>
+    <div class="section-label r">// ai labs</div>
+    <h2 class="r d1">AI Labs</h2>
+    <p class="section-desc r d2">Building with AI — agents, tooling, and prompt engineering across Claude and Google.</p>
 
     <div class="ai-grid">
 
       <!-- Claude Agents -->
-      <div class="ai-card ai-card-claude">
+      <div class="ai-card ai-card-claude r d1">
         <div class="ai-card-head">
           <span class="ai-icon">✦</span>
           <h3>Claude Agents</h3>
@@ -798,7 +842,7 @@
       </div>
 
       <!-- Claude Code -->
-      <div class="ai-card ai-card-prompts">
+      <div class="ai-card ai-card-prompts r d2">
         <div class="ai-card-head">
           <span class="ai-icon">⌨️</span>
           <h3>Claude Code</h3>
@@ -815,7 +859,7 @@
       </div>
 
       <!-- Google AI -->
-      <div class="ai-card ai-card-google">
+      <div class="ai-card ai-card-google r d3">
         <div class="ai-card-head">
           <span class="ai-icon">◉</span>
           <h3>Google AI</h3>
@@ -835,14 +879,14 @@
 
   <!-- ── PROJECTS ── -->
   <section class="section" id="projects">
-    <div class="section-label">// projects</div>
-    <h2>What I've Built</h2>
-    <p class="section-desc">Apps in active development — real users, real problems.</p>
+    <div class="section-label r">// projects</div>
+    <h2 class="r d1">What I've Built</h2>
+    <p class="section-desc r d2">Apps in active development — real users, real problems.</p>
 
     <div class="projects-grid">
 
       <!-- BreachGuard -->
-      <div class="card card-breachguard">
+      <div class="card card-breachguard r d1">
         <div class="card-header">
           <div class="card-icon icon-bg-security">🔐</div>
           <span class="card-status active">active</span>
@@ -870,7 +914,7 @@
       </div>
 
       <!-- ACServiceApp -->
-      <div class="card card-acservice">
+      <div class="card card-acservice r d2">
         <div class="card-header">
           <div class="card-icon icon-bg-tools">🛠️</div>
           <span class="card-status active">v21</span>
@@ -902,11 +946,11 @@
 
   <!-- ── RECENT UPDATES ── -->
   <section class="section" id="updates">
-    <div class="section-label">// recent activity</div>
-    <h2>Latest Commits</h2>
-    <p class="section-desc">What's shipping right now across both repos.</p>
+    <div class="section-label r">// recent activity</div>
+    <h2 class="r d1">Latest Commits</h2>
+    <p class="section-desc r d2">What's shipping right now across both repos.</p>
 
-    <div class="timeline">
+    <div class="timeline r d3">
 
       <div class="commit commit-acservice">
         <div class="commit-meta">
@@ -969,11 +1013,11 @@
 
   <!-- ── ABOUT ── -->
   <section class="section" id="about">
-    <div class="section-label">// about</div>
-    <h2>The Person Behind It</h2>
-    <p class="section-desc">One developer, two apps, zero shortcuts on security.</p>
+    <div class="section-label r">// about</div>
+    <h2 class="r d1">The Person Behind It</h2>
+    <p class="section-desc r d2">One developer, two apps, zero shortcuts on security.</p>
 
-    <div class="about-box">
+    <div class="about-box r d3">
       <div class="avatar">👨‍💻</div>
       <div>
         <div class="about-name">Vijay Velu</div>
@@ -1004,9 +1048,53 @@
 
 <!-- ── FOOTER ── -->
 <footer>
-  <span class="footer-copy">© 2025 Vijay Velu · Vee Labs — Jekyll · GitHub Pages</span>
+  <span class="footer-copy">© 2025 Vijay Velu · Vee Labs</span>
   <span class="footer-stack">Flutter · Kotlin · Firebase · CEH · CCNA</span>
 </footer>
+
+<script>
+  /* Theme toggle */
+  (function(){
+    var h=document.documentElement,
+        btn=document.getElementById('themeBtn'),
+        ico=document.getElementById('themeIcon'),
+        D='dark',L='light';
+    function apply(t){
+      h.setAttribute('data-theme',t);
+      ico.textContent=t===D?'☀️':'🌙';
+      localStorage.setItem('vl-theme',t);
+    }
+    apply(h.getAttribute('data-theme')||'dark');
+    btn.addEventListener('click',function(){
+      apply(h.getAttribute('data-theme')===D?L:D);
+    });
+    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change',function(e){
+      if(!localStorage.getItem('vl-theme')) apply(e.matches?L:D);
+    });
+  })();
+
+  /* Scroll reveal */
+  (function(){
+    if(!window.IntersectionObserver){
+      document.querySelectorAll('.r').forEach(function(el){el.classList.add('on');});
+      return;
+    }
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){ e.target.classList.add('on'); obs.unobserve(e.target); }
+      });
+    },{threshold:0.07,rootMargin:'0px 0px -24px 0px'});
+    document.querySelectorAll('.r').forEach(function(el){ obs.observe(el); });
+  })();
+
+  /* Nav scroll border */
+  (function(){
+    var nav=document.querySelector('nav');
+    window.addEventListener('scroll',function(){
+      nav.classList.toggle('scrolled',window.scrollY>8);
+    },{passive:true});
+  })();
+</script>
 
 </body>
 </html>
