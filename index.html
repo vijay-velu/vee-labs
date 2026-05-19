@@ -296,6 +296,105 @@
     .pill-ccna     { background: rgba(34,211,238,.08);  border-color: rgba(34,211,238,.2);  color: #67e8f9; }
     .pill-pentest  { background: rgba(248,113,113,.08); border-color: rgba(248,113,113,.2); color: var(--danger); }
     .pill-ctf      { background: rgba(52,211,153,.08);  border-color: rgba(52,211,153,.2);  color: #6ee7b7; }
+    .pill-claude   { background: rgba(167,139,250,.12); border-color: rgba(167,139,250,.3); color: #c4b5fd; }
+    .pill-google   { background: rgba(251,191,36,.08);  border-color: rgba(251,191,36,.2);  color: #fde68a; }
+    .pill-prompt   { background: rgba(52,211,153,.08);  border-color: rgba(52,211,153,.2);  color: var(--green); }
+    .pill-agents   { background: rgba(34,211,238,.08);  border-color: rgba(34,211,238,.2);  color: var(--cyan); }
+
+    /* ── ai labs ── */
+    .ai-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .ai-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.35rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+    }
+
+    .ai-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+
+    .ai-card-claude::before  { background: linear-gradient(90deg, #a78bfa, #7c3aed); }
+    .ai-card-google::before  { background: linear-gradient(90deg, #fbbf24, #34d399); }
+    .ai-card-prompts::before { background: linear-gradient(90deg, var(--cyan), var(--purple)); }
+
+    .ai-card:hover {
+      border-color: var(--border2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.4);
+    }
+
+    .ai-card-head {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      margin-bottom: .85rem;
+    }
+
+    .ai-icon {
+      font-size: 1.4rem;
+      line-height: 1;
+    }
+
+    .ai-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--bright);
+    }
+
+    .ai-card p {
+      font-size: .84rem;
+      color: var(--dim);
+      line-height: 1.65;
+      margin-bottom: .9rem;
+    }
+
+    .ai-agents {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+
+    .ai-agent-row {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .4rem .65rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: .8rem;
+    }
+
+    .ai-agent-row .agent-name {
+      color: var(--text);
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .ai-agent-row .agent-model {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem;
+      color: var(--dim);
+    }
+
+    .ai-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      margin-top: .1rem;
+    }
 
     /* ── project cards ── */
     .projects-grid {
@@ -600,6 +699,7 @@
   </a>
   <div class="links">
     <a href="#projects">Projects</a>
+    <a href="#ai-labs">AI Labs</a>
     <a href="#updates">Updates</a>
     <a href="#about">About</a>
     <a href="https://vijay-velu.github.io" target="_blank" rel="noopener">Blog ↗</a>
@@ -651,6 +751,85 @@
       <span class="pill pill-mvvm">◈ MVVM</span>
       <span class="pill pill-security">🔐 k-Anonymity</span>
       <span class="pill pill-revenuecat">💳 RevenueCat</span>
+      <span class="pill pill-claude">✦ Claude API</span>
+      <span class="pill pill-agents">🤖 AI Agents</span>
+      <span class="pill pill-google">◉ Google AI</span>
+      <span class="pill pill-prompt">💬 Prompt Engineering</span>
+    </div>
+  </section>
+
+  <!-- ── AI LABS ── -->
+  <section class="section" id="ai-labs">
+    <div class="section-label">// ai labs</div>
+    <h2>AI Labs</h2>
+    <p class="section-desc">Building with AI — agents, tooling, and prompt engineering across Claude and Google.</p>
+
+    <div class="ai-grid">
+
+      <!-- Claude Agents -->
+      <div class="ai-card ai-card-claude">
+        <div class="ai-card-head">
+          <span class="ai-icon">✦</span>
+          <h3>Claude Agents</h3>
+        </div>
+        <p>Custom Claude.ai agent configurations built for real workflows — research, data analysis, incident response, and structured data extraction.</p>
+        <div class="ai-agents">
+          <div class="ai-agent-row">
+            <span>🔍</span>
+            <span class="agent-name">Deep Researcher</span>
+            <span class="agent-model">sonnet-4-6</span>
+          </div>
+          <div class="ai-agent-row">
+            <span>📊</span>
+            <span class="agent-name">Data Analyst</span>
+            <span class="agent-model">sonnet-4-6</span>
+          </div>
+          <div class="ai-agent-row">
+            <span>🚨</span>
+            <span class="agent-name">Incident Commander</span>
+            <span class="agent-model">opus-4-6</span>
+          </div>
+          <div class="ai-agent-row">
+            <span>⚙️</span>
+            <span class="agent-name">Structured Extractor</span>
+            <span class="agent-model">sonnet-4-6</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Claude Code -->
+      <div class="ai-card ai-card-prompts">
+        <div class="ai-card-head">
+          <span class="ai-icon">⌨️</span>
+          <h3>Claude Code</h3>
+        </div>
+        <p>Using Claude Code CLI as a daily dev tool — shipping BreachGuard and ACServiceApp with AI-assisted architecture, refactors, and security reviews.</p>
+        <div class="ai-tools">
+          <span class="tag">Claude Code CLI</span>
+          <span class="tag">VS Code Extension</span>
+          <span class="tag">MCP Servers</span>
+          <span class="tag">Hooks</span>
+          <span class="tag">Custom Agents</span>
+          <span class="tag">Subagents</span>
+        </div>
+      </div>
+
+      <!-- Google AI -->
+      <div class="ai-card ai-card-google">
+        <div class="ai-card-head">
+          <span class="ai-icon">◉</span>
+          <h3>Google AI</h3>
+        </div>
+        <p>Certified in Google's AI agent track. Building and evaluating agentic systems with Gemini, Google AI Studio, and Vertex AI tooling.</p>
+        <div class="ai-tools">
+          <span class="tag">Agent Assist &amp; Gen AI</span>
+          <span class="tag">Build AI Agents</span>
+          <span class="tag">Gemini</span>
+          <span class="tag">AI Studio</span>
+          <span class="tag">Vertex AI</span>
+        </div>
+      </div>
+
     </div>
   </section>
 
