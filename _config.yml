@@ -1,7 +1,7 @@
 title: Vee Labs
 description: Indie studio building privacy-first mobile apps and field-service tools. Flutter · Kotlin · Firebase · Security.
-url: "https://vijay-velu.github.io"
-baseurl: "/vee-labs"
+url: "https://vee-labs.github.io"
+baseurl: ""
 
 plugins:
   - jekyll-seo-tag
